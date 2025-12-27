@@ -86,3 +86,42 @@ def unique_path_with_obstacles(grid):
             elif j>0:
                 dp[i][j] = dp[i][j-1]
     print(dp[row-1][col-1])
+
+def get_path(grid):
+    """ 
+
+        x x x
+        x x x    
+    """
+    row = len(grid)
+    col = len(grid[0])
+    dp = [[0 for _ in range(col)] for _ in range(col)]
+    path = []
+    r,c = row-1,col-1
+    for i in range(row):
+        for j in range(col):
+            if i==0 and j==0:
+                continue
+            if i>0 and j>0:
+                dp[i][j] = max(dp[i-1][j] , dp[i][j-1]) + grid[i][j]
+            elif i>0:
+                dp[i][j] = dp[i-1][j]
+            elif j>0:
+                dp[i][j] = dp[i][j-1]
+    
+    while r>=0 and c>=0:
+        path.append((r,c))
+        if r==0 and c==0:
+            break
+        if r>0 and c>0:
+            if dp[r-1][c] > dp[r][c-1]:
+                r-=1
+            else:
+                c-=1
+        elif r>0:
+            r-=1
+        elif c>0:
+            c-=1   
+    path.reverse()
+    print(path)
+get_path([[0,2,2,1],[3,1,1,1],[4,4,2,0]])
